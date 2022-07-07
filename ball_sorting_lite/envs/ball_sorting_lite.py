@@ -456,7 +456,7 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
         # blocked elements are in barrier_cols if row barrier col value is 1
         # same for paddles 
         # identify block
-                        if j in self.barrier_cols and self.action_array[i] == 1:
+                        if j in self.barrier_cols and self.action_array[0] == 1 and i == 1:
                                 separator_char =  '|'
                         elif j in self.paddle1_partially_deployed_cols and self.paddle1_counter >=1 and i == self.n_rows - 1:
                                 separator_char =  '|'
