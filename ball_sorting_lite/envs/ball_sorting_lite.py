@@ -181,47 +181,47 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
     def check_action(self):
         # checking if paddle actions are valid
         # if not, correct and give penalty
-        if self.action_array[3] == 1:
+        if self.action_array[-2] == 1:
                 if self.paddle1_counter == 0:
                         #action_array[3] = 0
                         #pass
                         self.reward -= 10.0
                 else: 
-                        if self.action_array[3] == 1:
+                        if self.action_array[-2] == 1:
                                 self.paddle1_counter -= 1
-                        elif self.action_array[3] == 2:
+                        elif self.action_array[-2] == 2:
                                 self.paddle1_counter +=1
-        elif self.action_array[3] == 2:
+        elif self.action_array[-2] == 2:
                 if self.paddle1_counter == 2:
                         #action_array[3] = 0
                         #pass
                         self.reward -= 10.0
         #if ok, update paddle1 counter
                 else: 
-                        if self.action_array[3] == 1:
+                        if self.action_array[-2] == 1:
                                 self.paddle1_counter -= 1
-                        elif self.action_array[3] == 2:
+                        elif self.action_array[-2] == 2:
                                 self.paddle1_counter +=1
 
         #checking if paddle2 action is valid
-        if self.action_array[4] == 1:
+        if self.action_array[-1] == 1:
                 if self.paddle2_counter == 0:
                         #action_array[4] = 0
                         self.reward -= 1.0
                 else: 
-                        if self.action_array[4] == 1:
+                        if self.action_array[-1] == 1:
                                 self.paddle2_counter -=1
-                        elif self.action_array[4] == 2:
+                        elif self.action_array[-1] == 2:
                                 self.paddle2_counter +=1
-        elif self.action_array[4] == 2:
+        elif self.action_array[-1] == 2:
                 if self.paddle2_counter == 2:
                         #action_array[4] = 0
                         self.reward -= 1.0
         #if ok, update paddle2 counter
                 else: 
-                        if self.action_array[4] == 1:
+                        if self.action_array[-1] == 1:
                                 self.paddle2_counter -=1
-                        elif self.action_array[4] == 2:
+                        elif self.action_array[-1] == 2:
                                 self.paddle2_counter +=1
                 
     def step(self, action):
@@ -332,7 +332,8 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
                         #loop rows
                         for row in range(n_rows):
                         # check if the barrier action is 1, if so, stop the balls in the current column
-                                if self.action_array[row] != 1:
+                                #if self.action_array[row] != 1:
+                                if row == 1 and self.action_array[0] != 1:
                                         # move current ball
                                         state[row][j+1] = state[row][j]
                                         state[row][j] = 0
