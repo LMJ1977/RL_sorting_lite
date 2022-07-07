@@ -1,0 +1,1 @@
+from ball_sorting_lite.envs.ball_sorting_lite import BallSortingEnv_lite
