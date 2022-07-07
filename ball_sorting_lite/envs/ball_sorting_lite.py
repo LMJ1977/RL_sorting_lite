@@ -132,7 +132,7 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
         self.done = False
         self.info = None
         self.action_space = gym.spaces.Discrete(2*3*3)
-        self.observation_space = gym.spaces.Box(0,3,[1,3], dtype=np.uint8)#[ n_rows, n_cols], dtype=np.uint8)
+        self.observation_space = gym.spaces.Box(0,3,[3,3], dtype=np.uint8)#[ n_rows, n_cols], dtype=np.uint8)
         self.paddle1_counter = paddle1_counter 
         self.paddle2_counter = paddle2_counter
         self.n_rows = n_rows
