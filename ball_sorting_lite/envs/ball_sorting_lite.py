@@ -187,10 +187,7 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
                         #pass
                         self.reward -= 10.0
                 else: 
-                        if self.action_array[-2] == 1:
-                                self.paddle1_counter -= 1
-                        elif self.action_array[-2] == 2:
-                                self.paddle1_counter +=1
+                        self.paddle1_counter -= 1
         elif self.action_array[-2] == 2:
                 if self.paddle1_counter == 2:
                         #action_array[3] = 0
@@ -198,10 +195,7 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
                         self.reward -= 10.0
         #if ok, update paddle1 counter
                 else: 
-                        if self.action_array[-2] == 1:
-                                self.paddle1_counter -= 1
-                        elif self.action_array[-2] == 2:
-                                self.paddle1_counter +=1
+                        self.paddle1_counter +=1
 
         #checking if paddle2 action is valid
         if self.action_array[-1] == 1:
@@ -209,20 +203,14 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
                         #action_array[4] = 0
                         self.reward -= 1.0
                 else: 
-                        if self.action_array[-1] == 1:
-                                self.paddle2_counter -=1
-                        elif self.action_array[-1] == 2:
-                                self.paddle2_counter +=1
+                        self.paddle2_counter -=1
         elif self.action_array[-1] == 2:
                 if self.paddle2_counter == 2:
                         #action_array[4] = 0
                         self.reward -= 1.0
         #if ok, update paddle2 counter
                 else: 
-                        if self.action_array[-1] == 1:
-                                self.paddle2_counter -=1
-                        elif self.action_array[-1] == 2:
-                                self.paddle2_counter +=1
+                        self.paddle2_counter +=1
                 
     def step(self, action):
         self.action_array = self.decode_action(action)
