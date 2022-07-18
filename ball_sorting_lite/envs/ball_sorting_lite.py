@@ -253,6 +253,7 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
         #self.reward += (self.tasa_aciertos-0.3333)*10 
     def update_state(self):
         def move_1(self,arr, dir):
+                dir = !dir
                 #create a new array like arr
                 new_arr = [0,0,0]
                 new_curr_arr = [0,0,0]   
@@ -288,6 +289,7 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
                 return new_curr_arr, new_arr
 
         def move_2(self, arr, dir):
+                dir = !dir
                 #create a new array like arr
                 new_arr = [0,0,0]
                 new_curr_arr = [0,0,0]   
