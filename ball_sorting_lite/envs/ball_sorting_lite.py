@@ -295,10 +295,10 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
                 if dir == 1:
                         arr = arr[::-1]
                 if arr[1] == 0:
-                        new_arr = arr
+                        new_arr = [0,arr[0],arr[2]]
                         new_curr_arr = [0,0,0]
                 elif arr[2] == 0:
-                        new_arr = [0,0,arr[1]]
+                        new_arr = [0,arr[0],arr[1]]
                         new_curr_arr = [0,0,0]
                 else:
                         new_arr = [0,0,arr[2]]
