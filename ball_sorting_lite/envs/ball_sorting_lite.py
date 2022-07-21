@@ -217,16 +217,16 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
         # if incorrect, reward is -5 for each incorrect ball placement
         for col in range(3,n_cols-1):
         #loop rows
-        for row in range(n_rows):
-                #check if empty and give zero reward
-                if self.state[row][col] == 0:
-                        self.reward += 0
-                        #else check if correct and give reward
-                elif self.state[row][col] == row + 1:
-                        self.reward += self.delay_multiplier*self.ok_reward/(n_cols-col)
-                        #else check if incorrect and give penalty
-                else:
-                        self.reward += self.delay_multiplier*self.nok_reward/(n_cols-col)
+                for row in range(n_rows):
+                        #check if empty and give zero reward
+                        if self.state[row][col] == 0:
+                                self.reward += 0
+                                #else check if correct and give reward
+                        elif self.state[row][col] == row + 1:
+                                self.reward += self.delay_multiplier*self.ok_reward/(n_cols-col)
+                                #else check if incorrect and give penalty
+                        else:
+                                self.reward += self.delay_multiplier*self.nok_reward/(n_cols-col)
 
         for i in range(n_rows):
                 if self.state[i][n_cols-1] != 0:
