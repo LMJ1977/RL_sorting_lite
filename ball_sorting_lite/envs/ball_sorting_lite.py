@@ -149,34 +149,14 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
         self.balls_classified = balls_classified
         self.balls_classified_correct = balls_classified_correct
         self.tasa_aciertos = 0
+        self.ok_reward = 40
+        self.nok_reward = -5
+        self.empty_reward = -1
+        self.wrong_action_reward = -1
+        self.delay_multiplier = 1
+        self.ministate_activation = 1
         self.reset()
     
-#     def check_action(self, action_array):
-#             # checking if paddle actions are valid
-#             # if not, correct and give penalty
-#                 if action_array[3] == 1:
-#                         if self.paddle1_counter == 0:
-#                                 action_array[3] = 0
-#                                 self.reward -= 10
-#                 elif action_array[3] == 2:
-#                         if self.paddle1_counter == 2:
-#                                 action_array[3] = 0
-#                                 self.reward -= 10
-#                 #if ok, update paddle1 counter
-#                 else: self.paddle1_counter += action_array[3]
-#                 #checking if paddle2 action is valid
-#                 if action_array[4] == 1:
-#                         if self.paddle2_counter == 0:
-#                                 action_array[4] = 0
-#                                 self.reward -= 10
-#                 elif action_array[4] == 2:
-#                         if self.paddle2_counter == 2:
-#                                 action_array[4] = 0
-#                                 self.reward -= 10
-#                 #if ok, update paddle2 counter
-#                 else: self.paddle2_counter += action_array[4]
-#                 return action_array
-
 
     def check_action(self):
         # checking if paddle actions are valid
@@ -185,14 +165,14 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
                 if self.paddle1_counter == 0:
                         #action_array[3] = 0
                         #pass
-                        self.reward -= 10.0
+                                self.reward += self.wrong_action_reward
                 else: 
                         self.paddle1_counter -= 1
         elif self.action_array[-2] == 2:
                 if self.paddle1_counter == 2:
                         #action_array[3] = 0
                         #pass
-                        self.reward -= 10.0
+                        self.reward += self.wrong_action_reward
         #if ok, update paddle1 counter
                 else: 
                         self.paddle1_counter +=1
@@ -201,13 +181,13 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
         if self.action_array[-1] == 1:
                 if self.paddle2_counter == 0:
                         #action_array[4] = 0
-                        self.reward -= 1.0
+                        self.reward += self.wrong_action_reward 
                 else: 
                         self.paddle2_counter -=1
         elif self.action_array[-1] == 2:
                 if self.paddle2_counter == 2:
                         #action_array[4] = 0
-                        self.reward -= 1.0
+                        self.reward += self.wrong_action_reward
         #if ok, update paddle2 counter
                 else: 
                         self.paddle2_counter +=1
@@ -225,26 +205,42 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
         #self.info = {"tasa_aciertos": self.balls_classified_correct/self.balls_classified}
         #self.render()
         #return  self.encode_state(), self.reward, self.end_episode(), {"tasa_aciertos": self.tasa_aciertos}
-        return  self.ministate, self.reward, self.end_episode(), {"tasa_aciertos": self.tasa_aciertos}
+        if self.ministate_activation ==1:
+                return  self.ministate, self.reward, self.end_episode(), {"tasa_aciertos": self.tasa_aciertos}
+        else:
+                return  self.state, self.reward, self.end_episode(), {"tasa_aciertos": self.tasa_aciertos}
 
     def evaluate_reward(self):
         # check last column for correct ball placement
         # if correct, reward is +40 for each correct ball placement
         # if void, reward is 0
         # if incorrect, reward is -5 for each incorrect ball placement
+        for col in range(3,n_cols-1):
+        #loop rows
+        for row in range(n_rows):
+                #check if empty and give zero reward
+                if self.state[row][col] == 0:
+                        self.reward += 0
+                        #else check if correct and give reward
+                elif self.state[row][col] == row + 1:
+                        self.reward += self.delay_multiplier*self.ok_reward/(n_cols-col)
+                        #else check if incorrect and give penalty
+                else:
+                        self.reward += self.delay_multiplier*self.nok_reward/(n_cols-col)
+
         for i in range(n_rows):
                 if self.state[i][n_cols-1] != 0:
                         self.balls_classified += 1
                         #self.reward += 1
                 else:
                         #self.state[i][n_cols-1] == 0:
-                        self.reward -= 1.0
+                        self.reward += self.empty_reward
                 if self.state[i][n_cols-1] == i+1:
-                        self.reward += 40.0
+                        self.reward += self.ok_reward
                         self.balls_classified_correct += 1
 
                 else:
-                        self.reward -= 500.0
+                        self.reward -= self.nok_reward
                         #pass
         try:                 
                 self.tasa_aciertos = self.balls_classified_correct/self.balls_classified
@@ -416,7 +412,10 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
         self.ministate = self.state[1,0:3]
         #print("Environment reset")
         #self.state = self.state.ravel()
-        return self.ministate#self.ministate
+        if self.ministate_activation == 1:
+                return self.ministate#self.ministate
+        else:
+                return self.state
 
 
 
