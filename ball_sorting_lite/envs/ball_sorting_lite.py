@@ -255,7 +255,7 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
                         self.balls_classified_correct += 1
 
                 else:
-                        self.reward -= self.nok_reward
+                        self.reward += self.nok_reward
                         #pass
         try:                 
                 self.tasa_aciertos = self.balls_classified_correct/self.balls_classified
