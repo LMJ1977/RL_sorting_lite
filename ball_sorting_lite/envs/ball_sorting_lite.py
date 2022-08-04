@@ -516,7 +516,7 @@ https://stackoverflow.com/questions/71978756/keras-symbolic-inputs-outputs-do-no
                 self.render()
                 print('{} Bolas clasificadas corretamente'.format(self.balls_classified_correct))
                 print('{} Bolas clasificadas'.format(self.balls_classified))
-                print('Tasa de acierto: {}%'.format(self.balls_classified_correct/self.balls_classified*100))
+                print('Tasa de acierto: {}%'.format(self.tasa_aciertos*100.0))
                 return True
         else:
                 return False
